@@ -1,7 +1,9 @@
 {
   "expo": {
-    "name": "my-app",
-    "slug": "my-app",
+    "name": "spanish-learning-hub",
+    "owner": "AnastasiaTaucci",
+    "githuburl": "https://github.com/AnastasiaTaucci/first_react_native_app.git",
+    "slug": "spanish-learning-hub",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -9,7 +11,7 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": false
     },
     "android": {
       "adaptiveIcon": {
