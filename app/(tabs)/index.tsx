@@ -1,12 +1,14 @@
-import {StyleSheet, ScrollView, FlatList, TextInput, Button, Linking, TouchableOpacity } from 'react-native';
+import {StyleSheet, ScrollView, FlatList, TextInput, Button} from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
 import spanishLinks from '../../data/spanish_links.json'
 import { useState } from 'react';
+import { useRouter } from 'expo-router';
+import ResourceCard from '@/components/ResourceCard'
 
 export default function HomeScreen() {
   const [searchText, setSearchText] = useState('');
   const [filteredData, setFilteredData] = useState(spanishLinks);
+  const router = useRouter();
 
   function handleSearch() {
     const results = spanishLinks.filter(item => 
@@ -37,19 +39,22 @@ export default function HomeScreen() {
         onPress={handleSearch}
       />
 
-      <FlatList 
-        style={styles.list}
+      <FlatList
+        scrollEnabled={false}
         data={filteredData}
         keyExtractor={(item) => item.title}
         renderItem={({item}) => (
-          <ThemedView style={styles.stepContainer}>
-            <ThemedText style={styles.itemTitle}>{item.title}</ThemedText>
-            <ThemedText style={styles.itemGroup}>{item.group}</ThemedText>
-            <ThemedText style={styles.itemDescription}>{item.description}</ThemedText>
-            <TouchableOpacity onPress={() => Linking.openURL(item.link)}>
-              <ThemedText style={styles.itemLink}>Open Link</ThemedText>
-            </TouchableOpacity> 
-          </ThemedView>
+          <ResourceCard
+            title={item.title}
+            group={item.group}
+            description={item.description}
+            onPress={() =>
+              router.push({
+                pathname: '/details',
+                params: item,
+              })
+            }
+          />
         )}
       />
     </ScrollView>
@@ -77,43 +82,4 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     marginBottom: 10
   },
-  list: {
-    marginTop: 10,
-    marginBottom: 13
-  },
-  stepContainer: {
-    backgroundColor: '#ffffff',
-    padding: 16,
-    marginVertical: 8,
-    borderRadius: 10,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
-  },
-  itemTitle: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: '#0362fc',
-    marginBottom: 8
-  },
-  itemGroup: {
-    fontSize: 14,
-    color: '#777',
-    marginBottom: 4,
-    paddingLeft: 6
-  },
-  itemDescription: {
-    fontSize: 16,
-    marginBottom: 6,
-    fontWeight: '600',
-    color: 'darkblue',
-    paddingLeft: 6
-  },
-  itemLink: {
-    color: '#1e90ff',
-    textDecorationLine: 'underline',
-    fontSize: 14,
-    paddingLeft: 20
-  }
 });
